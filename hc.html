@@ -1,0 +1,96 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <link rel="stylesheet" href="hc.css">
+    <title>Hồ cá vui buồn đan xen</title>
+</head>
+<body>
+    <div class="container">
+        <div class="aquarium">
+            <div class="bg"></div>
+            <div class="water"></div>
+            <div class="border border-top"></div>
+            <div class="border border-bottom"></div>
+            <div class="sanho">
+                <img src="anh_ho_ca/sanho1.jpeg" alt="Sanho" class="sanho1">
+            </div>
+            <img src="anh_ho_ca/tautrai.png" alt="Tau" class="tautrai">
+            <img src="anh_ho_ca/tauphai.png" alt="Tau" class="tauphai">
+            <div class="fish fish-1"></div>
+            <div class="fish fish-2"></div>
+            <div class="fish fish-3"></div>
+            <div class="fish fish-4"></div>
+            <div class="fish fish-5"></div>
+            <div class="fish fish-6"></div>
+            <div class="fish fish-7"></div>
+            <div class="fish fish-8"></div>
+            <div class="fish fish-9"></div>
+            <button id="toggleBg">Chuyển Background</button>
+            <button id="toggleMusic">Bật Nhạc</button>
+            <div class="youtube-container" id="youtubePlayer"></div>
+        </div>
+    </div>
+    <script>
+        const bgImages = [
+            "./anh_ho_ca/bg2.png", 
+            "./anh_ho_ca/bg1.jpg", 
+            "./anh_ho_ca/bg3.jpg", 
+        ]; // Danh sách các hình nền
+        let currentBgIndex = 0; // Chỉ số hình nền hiện tại
+    
+        document.getElementById('toggleBg').addEventListener('click', function () {
+            // Lấy phần tử `.bg`
+            const bg = document.querySelector('.bg');
+    
+            // Tăng chỉ số hình nền, quay về 0 nếu vượt quá số lượng hình
+            currentBgIndex = (currentBgIndex + 1) % bgImages.length;
+    
+            // Cập nhật hình nền mới
+            bg.style.backgroundImage = `url(${bgImages[currentBgIndex]})`;
+        });
+        // Thêm API của YouTube
+let tag = document.createElement('script');
+tag.src = "https://www.youtube.com/iframe_api";
+let firstScriptTag = document.getElementsByTagName('script')[0];
+firstScriptTag.parentNode.insertBefore(tag, firstScriptTag);
+
+let player; // Biến toàn cục lưu trữ trình phát YouTube
+let isPlaying = false; // Trạng thái nhạc
+
+// Hàm này sẽ được YouTube API gọi khi đã tải xong
+function onYouTubeIframeAPIReady() {
+    player = new YT.Player('youtubePlayer', {
+        height: '0', // Ẩn trình phát
+        width: '0',
+        videoId: 'vZeWxNnL8bc', // Thay 'YOUR_VIDEO_ID' bằng ID video YouTube
+        playerVars: {
+            autoplay: 0, // Không tự động phát
+            loop: 1, // Lặp lại
+            playlist: 'vZeWxNnL8bc', // Đặt playlist để lặp lại
+        },
+        events: {
+            onReady: onPlayerReady,
+        }
+    });
+}
+
+// Hàm khi player đã sẵn sàng
+function onPlayerReady(event) {
+    document.getElementById('toggleMusic').addEventListener('click', function () {
+        if (isPlaying) {
+            player.pauseVideo(); // Tạm dừng video
+            this.textContent = 'Bật Nhạc'; // Thay đổi nội dung nút
+        } else {
+            player.playVideo(); // Bắt đầu phát video
+            this.textContent = 'Tắt Nhạc'; // Thay đổi nội dung nút
+        }
+        isPlaying = !isPlaying; // Đổi trạng thái
+    });
+}
+
+    </script>    
+</body>
+</html>
